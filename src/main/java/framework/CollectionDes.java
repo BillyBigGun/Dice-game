@@ -8,7 +8,7 @@ public class CollectionDes {
     private int nbDes;
 
     public int getNbDe(){
-        return nbDes;
+        return des.length;
     }
 
     /**
@@ -19,11 +19,25 @@ public class CollectionDes {
         return new DeIterator<De>();
     }
 
-    public int lancer(int indiceDe){
+    /*public int lancer(int indiceDe){
         if(indiceDe < des.length && indiceDe >= 0){
             return des[indiceDe].lancer();
         }
         return 0;
+    }*/
+
+    /**
+     * Lance tous les des et retourne la valeur de chacun
+     * @return
+     */
+    public int[] lancer(){
+        Iterator<De> it = creerIterator();
+        int[] valeurDes = new int[getNbDe()];
+        int indice = 0;
+        while (it.hasNext()){
+            valeurDes[indice++] = it.next().lancer();
+        }
+        return valeurDes;
     }
 
     public CollectionDes(int nbDe, int nbFaces){

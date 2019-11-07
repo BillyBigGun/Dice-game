@@ -14,10 +14,17 @@ public class Joueur implements Comparable<Joueur>{
         return nom;
     }
 
+    /**
+     * Ajoute toujours une valeur positive, ne peut pas reduire le score
+     * @param ajout
+     */
     public void ajouterScore(int ajout) {
         score += Math.abs(ajout);
     }
 
+    /**
+     * Reinitialise le score a 0
+     */
     public void reinitialiser(){
         score = 0;
     }

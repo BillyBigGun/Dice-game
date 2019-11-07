@@ -2,28 +2,34 @@ package framework;
 
 import Strategies.StrategieScore;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 public abstract class Jeu {
 
     private int nbTours;
-    private int tourActuel = 1;
+    protected int tourActuel = 1;
     private boolean tourJoueurTermine = false;
     private boolean finJeu = false;
+    private Joueur joueurActuel;
     protected StrategieScore strategieScore;
-    protected Iterator joueurIterator;
+    protected Iterator<Joueur> joueurIterator;
     protected CollectionJoueurs joueurs;
-    private CollectionDes des;
+    protected CollectionDes des;
 
     /**
      * reinitialise le jeu
      */
-    public void reinitialiserScore(){
+    public void reinitialiserPartie(){
         joueurs.reinitialiserScore();
         tourActuel = 1;
-        tourJoueurTermine = false;
         finJeu = false;
         joueurIterator = joueurs.creerIterator();
+        joueurActuel = null;
+        if(joueurIterator.hasNext())
+            joueurActuel = joueurIterator.next();
     }
 
     /**
@@ -41,33 +47,58 @@ public abstract class Jeu {
         return valeurDes;
     }
 
-    public abstract boolean determinerFinTourJoueur();
+    public abstract boolean finTourJoueur();
 
-    public abstract void calculerScoreTour(int[] des);
+    public int calculerScoreTour(int[] des){
+        int score = strategieScore.calculerScoreTour(des, nbTours);
+        joueurActuel.ajouterScore(score);
+        return score;
+    }
 
-    public abstract Joueur calculerVainqueur();
+    public Joueur calculerVainqueur(){
+        Arrays.sort(joueurs.getJoueurs());
+        return joueurs.getJoueurs()[0];
+    }
 
     public void jouer(){
-        if(!finJeu){
+        if(!finJeu && joueurActuel != null){
             int[] valeursDes = lancerDes();
-            calculerScoreTour(valeursDes);
+            //Display les des
+            System.out.println("Les des sont: ");
+            for(int i = 0; i < valeursDes.length; ++i){
+                System.out.println(valeursDes[i] + ", ");
+            }
+            int score = calculerScoreTour(valeursDes);
+            System.out.println("Le joueur " + joueurActuel.getNom() + " a fait: " + score + " points. Il a maintenant " + joueurActuel.getScore() + " points");
 
             //Si le joueur a fini sont tour,
             // on verifie sil y a un autre joueur a joueur
             // ou si on incremente le tour ou si la partie est fini
-            if(determinerFinTourJoueur()){
+            if(finTourJoueur()){
+                System.out.println("Le tour du joueur " + joueurActuel + " est termine");
                 //Passe au prochain joueur
-                if(joueurIterator.hasNext())
-                    joueurIterator.next();
-                //Cree un nouvel iterator
-                else if(tourActuel != nbTours)
+                if(joueurIterator.hasNext()){
+                    joueurActuel = joueurIterator.next();
+                    System.out.println("Le nouveau joueur est: " + joueurActuel.getNom());
+                }
+                //Cree un nouvel iterator pour le prochain tour de jeu
+                else if(tourActuel != nbTours){
                     joueurIterator = joueurs.creerIterator();
+                    tourActuel++;
+                    System.out.println("Le tour de jeu est termine. Le prochain tour est le tour " + tourActuel + " sur un total de " + nbTours + " tours");
+                }
+
                 //La partie est termine et on calcule le vainqueur
                 else{
-                    calculerVainqueur();
+                    Joueur vainqueur = calculerVainqueur();
+                    System.out.println("Le vainqueur de la partie est " + vainqueur.getNom());
                     finJeu = true;
+                    System.out.println("---FIN DE LA PARTIE---");
                 }
             }
+        }
+        else{
+            System.out.println("La partie est termine");
         }
     }
 
@@ -75,11 +106,12 @@ public abstract class Jeu {
     public Jeu(CollectionJoueurs joueurs, CollectionDes des){
         this.joueurs = joueurs;
         this.des = des;
-        joueurIterator = joueurs.creerIterator();
+        reinitialiserPartie();
     }
 
     public Jeu(CollectionJoueurs joueurs){
         this.joueurs = joueurs;
-        joueurIterator = joueurs.creerIterator();
+        reinitialiserPartie();
+
     }
 }

@@ -4,16 +4,36 @@ import java.util.Iterator;
 
 public class CollectionJoueurs {
 
-    Joueur[] joueurs;
+    private Joueur[] joueurs;
+
+    //Permet de determiner si les tableau est plein
+    //Es l'indice du joueur dun nouveau joueur dans le tableau
     int indiceNouveauJoueur;
 
     /**
      * Ajoute un nouveau joueur au tableau
      * @param nom
+     * @return la longueur de la collection de joueur
      */
-    public void ajouterJoueur(String nom){
+    public int ajouterJoueur(String nom){
         if(indiceNouveauJoueur < joueurs.length)
             joueurs[indiceNouveauJoueur++] = new Joueur(nom);
+
+        //Cree un tableau plus grand avec un joueur de plus
+        else{
+            Joueur[] js = new Joueur[joueurs.length + 1];
+            for(int i =0; i < js.length - 1; ++i){
+                js[i] = joueurs[i];
+            }
+            js[js.length - 1] = new Joueur(nom);
+            joueurs = js;
+            indiceNouveauJoueur++;
+        }
+        return joueurs.length;
+    }
+
+    public Joueur[] getJoueurs(){
+        return joueurs;
     }
 
     /**
@@ -40,21 +60,10 @@ public class CollectionJoueurs {
     }
 
     /**
-     * Ajoute les joueurs qui sont passe en parametre dans un tableau de la meme dimension
-     * @param joueurs_
-     */
-    public CollectionJoueurs(Joueur[] joueurs_){
-        joueurs = new Joueur[joueurs_.length];
-        for(int i =0; i < joueurs.length; ++i){
-            joueurs[i] = new Joueur(joueurs_[i].getNom());
-        }
-    }
-
-    /**
      * La classe iterateur qui soccupe de la navigation du tableau joueur
      * @param <Joueur>
      */
-    public class JoueurIterator<Joueur> implements Iterator<Joueur>{
+    private class JoueurIterator<Joueur> implements Iterator<Joueur>{
 
         private int indice;
         public JoueurIterator(){
