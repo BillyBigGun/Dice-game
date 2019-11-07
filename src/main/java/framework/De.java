@@ -1,13 +1,18 @@
 package framework;
-import java.util.Random;
+import java.util.*;
 
-public class De {
+public class De implements Comparable<De> {
 
     private int nombreFaces;
     private Random randomNumber;
+    private int faceActuelle;
 
     public int getNbFaces(){
         return nombreFaces;
+    }
+
+    public int getFaceActuelle(){
+        return faceActuelle;
     }
 
     /**
@@ -18,12 +23,28 @@ public class De {
         return new De(getNbFaces());
     }
 
+    /**
+     * permet de simuler un lancer de de retournant une valeur aleatoire entre 1 et son nombre de faces
+     * @return
+     */
     public int lancer(){
-        return randomNumber.nextInt(nombreFaces+1);
+        faceActuelle = randomNumber.nextInt(nombreFaces) + 1;
+        return faceActuelle;
     }
 
     public De(int nbFaces){
         nombreFaces = nbFaces;
         randomNumber = new Random();
+        faceActuelle = 1;
+    }
+
+    public int compareTo(De de) {
+        int face = de.getFaceActuelle();
+
+        if(face < this.faceActuelle)
+            return 1;
+        else if(face > this.faceActuelle)
+            return -1;
+        return 0;
     }
 }
