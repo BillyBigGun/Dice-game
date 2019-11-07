@@ -9,9 +9,9 @@ import java.util.Iterator;
 
 public abstract class Jeu {
 
-    private int nbTours;
+    //TODO nbTours doit pt etre assige en parametre
+    private final int nbTours = 10;
     protected int tourActuel = 1;
-    private boolean tourJoueurTermine = false;
     private boolean finJeu = false;
     private Joueur joueurActuel;
     protected StrategieScore strategieScore;
@@ -50,42 +50,48 @@ public abstract class Jeu {
     public abstract boolean finTourJoueur();
 
     public int calculerScoreTour(int[] des){
-        int score = strategieScore.calculerScoreTour(des, nbTours);
+        int score = strategieScore.calculerScoreTour(des, tourActuel);
         joueurActuel.ajouterScore(score);
         return score;
     }
 
     public Joueur calculerVainqueur(){
-        Arrays.sort(joueurs.getJoueurs());
-        return joueurs.getJoueurs()[0];
+        return strategieScore.calculerVainqueur(joueurs);
     }
 
     public void jouer(){
         if(!finJeu && joueurActuel != null){
             int[] valeursDes = lancerDes();
             //Display les des
-            System.out.println("Les des sont: ");
+            System.out.print("\nLes des sont: ");
+
             for(int i = 0; i < valeursDes.length; ++i){
-                System.out.println(valeursDes[i] + ", ");
+                System.out.print(valeursDes[i] + ", ");
             }
+
             int score = calculerScoreTour(valeursDes);
-            System.out.println("Le joueur " + joueurActuel.getNom() + " a fait: " + score + " points. Il a maintenant " + joueurActuel.getScore() + " points");
+            System.out.println("\nLe joueur " + joueurActuel.getNom() + " a fait: " + score + " points. Il a maintenant " + joueurActuel.getScore() + " points");
 
             //Si le joueur a fini sont tour,
             // on verifie sil y a un autre joueur a joueur
             // ou si on incremente le tour ou si la partie est fini
             if(finTourJoueur()){
-                System.out.println("Le tour du joueur " + joueurActuel + " est termine");
+                System.out.println("Le tour du joueur " + joueurActuel.getNom() + " est termine");
+
                 //Passe au prochain joueur
                 if(joueurIterator.hasNext()){
                     joueurActuel = joueurIterator.next();
                     System.out.println("Le nouveau joueur est: " + joueurActuel.getNom());
                 }
+
                 //Cree un nouvel iterator pour le prochain tour de jeu
                 else if(tourActuel != nbTours){
                     joueurIterator = joueurs.creerIterator();
+                    joueurActuel = joueurIterator.next();
                     tourActuel++;
                     System.out.println("Le tour de jeu est termine. Le prochain tour est le tour " + tourActuel + " sur un total de " + nbTours + " tours");
+                    System.out.println("C'est au tour de " + joueurActuel.getNom() + " de jouer");
+                    System.out.println("--------------------");
                 }
 
                 //La partie est termine et on calcule le vainqueur

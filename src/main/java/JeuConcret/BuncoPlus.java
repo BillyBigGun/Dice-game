@@ -7,15 +7,31 @@ import java.util.Iterator;
 
 public class BuncoPlus extends Jeu {
 
+    /**
+     * Verifie si le joueur peut jouer un autre tour en fonction des des lancees
+     * @return
+     */
     public boolean finTourJoueur() {
         Iterator<De> it = des.creerIterator();
-        if(it.hasNext()){
+        int nbChiffreEgalTour = 0;
+        while(it.hasNext()){
             int valeur = it.next().getFaceActuelle();
+
             //Si la face est pareil que le tour, le tour du joueur nest pas termine
             if(valeur == tourActuel)
-                return true;
+                nbChiffreEgalTour++;
         }
-        return false;
+        //Cest un bunco!
+        if(nbChiffreEgalTour == des.getNbDe())
+            return true;
+
+        //Au moins un de == tour
+        else if(nbChiffreEgalTour > 0) {
+            System.out.println("Le joueur peut continuer a jouer!");
+            return false;
+        }
+
+        return true;
     }
 
     /*public void calculerScoreTour(int[] des) {
