@@ -10,7 +10,7 @@ public interface StrategieScore {
      * @param joueurs
      * @return
      */
-    Joueur calculerVainqueur(CollectionJoueurs joueurs);
+    CollectionJoueurs calculerVainqueur(CollectionJoueurs joueurs);
 
     /**
      * Permet de calculer le score d'un joueur selon le tour ou il joue et les des quil a lance

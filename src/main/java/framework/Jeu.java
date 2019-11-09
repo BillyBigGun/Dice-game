@@ -20,7 +20,6 @@ public abstract class Jeu {
     protected CollectionDes des;
 
 
-
     /**
      * Lance les des un a un en fonction de l'iterator
      * @return
@@ -39,7 +38,7 @@ public abstract class Jeu {
     public abstract int calculerScoreTour(int[] des, Joueur joueur);
     public abstract boolean finTourJoueur();
 
-    public Joueur calculerVainqueur(){
+    public CollectionJoueurs calculerVainqueur(){
         return strategieScore.calculerVainqueur(joueurs);
     }
 
@@ -112,10 +111,18 @@ public abstract class Jeu {
      * Determiner le vainqueur de la partie
      */
     private void finPartie(){
-        Joueur vainqueur = calculerVainqueur();
-        System.out.println("Le vainqueur de la partie est " + vainqueur.getNom());
+        CollectionJoueurs classement = calculerVainqueur();
+        Iterator<Joueur> it = classement.creerIterator();
+
         finJeu = true;
-        System.out.println("---FIN DE LA PARTIE---");
+        System.out.println("\n---FIN DE LA PARTIE---");
+        System.out.println("\n--Classement---");
+        int indice = 1;
+        //Classement
+        while(it.hasNext()){
+            System.out.println(indice++ + ". " + it.next().getNom());
+        }
+        System.out.println("");
     }
 
 

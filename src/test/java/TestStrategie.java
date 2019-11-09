@@ -50,11 +50,11 @@ public class TestStrategie {
     public void calculerVainqueur(){
         setup();
         cj.getJoueurs()[0].ajouterScore(10);
-        Joueur j = strat.calculerVainqueur(cj);
-        assertEquals("a", j.getNom());
+        CollectionJoueurs j = strat.calculerVainqueur(cj);
+        assertEquals("a", j.getJoueurs()[0].getNom());
 
         cj.getJoueurs()[1].ajouterScore(20);
         j = strat.calculerVainqueur(cj);
-        assertEquals("b", j.getNom());
+        assertEquals("b", j.getJoueurs()[0].getNom());
     }
 }

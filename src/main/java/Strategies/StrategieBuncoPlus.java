@@ -11,10 +11,9 @@ public class StrategieBuncoPlus implements StrategieScore{
     static final int valeurBunco = 21;
     final int valeurTousPareil = 5;
 
-    //TODO implémenter cette classe (Strategie bunco plus)
-    public Joueur calculerVainqueur(CollectionJoueurs joueurs) {
+    public CollectionJoueurs calculerVainqueur(CollectionJoueurs joueurs) {
         Arrays.sort(joueurs.getJoueurs(), Collections.reverseOrder());
-        return joueurs.getJoueurs()[0];
+        return joueurs;
     }
 
     public int calculerScoreTour(int[] des, int tour) {
