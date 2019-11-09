@@ -14,6 +14,10 @@ public class De implements Comparable<De> {
     public int getFaceActuelle(){
         return faceActuelle;
     }
+    public void setFaceActuelle(int face){
+        if(face > 0 && face <= nombreFaces)
+            this.faceActuelle = face;
+    }
 
     /**
      * Duplique le de et retourne sa copie
@@ -32,8 +36,12 @@ public class De implements Comparable<De> {
         return faceActuelle;
     }
 
+    /**
+     * Cree un de avec seulement un nombre de face positif
+     * @param nbFaces
+     */
     public De(int nbFaces){
-        nombreFaces = nbFaces;
+        nombreFaces = Math.abs(nbFaces);
         randomNumber = new Random();
         faceActuelle = 1;
     }

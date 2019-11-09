@@ -1,4 +1,5 @@
 import JeuConcret.BuncoPlus;
+import JeuConcret.Fabrique;
 import framework.CollectionDes;
 import framework.CollectionJoueurs;
 import org.junit.Test;
@@ -8,12 +9,12 @@ public class TestBuncoPlus {
     BuncoPlus buncoPlus;
     @Test
     public void setup(){
-        CollectionJoueurs cj = new CollectionJoueurs(2);
-        CollectionDes cd = new CollectionDes(3, 6);
-        cj.ajouterJoueur("Alex");
-        cj.ajouterJoueur("Billy");
+        Fabrique fb = new Fabrique();
+        CollectionJoueurs cj = fb.creerCollectionJoueur();
+        cj.ajouterJoueur(fb.creerJoueur("Alex"));
+        cj.ajouterJoueur(fb.creerJoueur("Billy"));
 
-        buncoPlus = new BuncoPlus(cj, cd);
+        buncoPlus = new BuncoPlus(cj);
     }
 
     @Test

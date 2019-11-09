@@ -1,3 +1,4 @@
+import JeuConcret.Fabrique;
 import framework.De;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -8,13 +9,16 @@ public class TestDe {
     De d1;
     De d2;
     final int d1Faces = 6;
-    final int d2Faces = 1;
+    final int d2Faces = -1;
 
     @Test
     public void setup(){
-        d1 = new De(d1Faces);
-        d2 = new De(d2Faces);
+        Fabrique fb = new Fabrique();
+        d1 = fb.creerDe(d1Faces);
+        d2 = fb.creerDe(d2Faces);
         assertEquals(d1Faces, d1.getNbFaces());
+        assertEquals(1, d2.getNbFaces());
+
     }
 
     @Test
@@ -27,7 +31,7 @@ public class TestDe {
     @Test
     public void lancer(){
         setup();
-        //faire plusieurs test de lance pour sassurer que
+        //faire plusieurs test de lance pour sassurer que ca respecte les condition
         for(int i = 0; i < 15; ++i){
             d1.lancer();
             assertTrue(d1.getFaceActuelle() <= d1Faces && d1.getFaceActuelle() >=1);
@@ -38,14 +42,14 @@ public class TestDe {
     @Test
     public void compareTo(){
         setup();
-        d1.lancer();
-        d2.lancer();
+        d1.setFaceActuelle(3);
+        d2.setFaceActuelle(1);
 
         int compare = d1.compareTo(d2);
-        assertTrue(compare >= 0);
+        assertEquals(1, compare );
 
         compare = d2.compareTo(d1);
-        assertTrue(compare <= 0);
+        assertEquals(-1, compare);
 
         compare = d1.compareTo(d1);
         assertEquals(0, compare);

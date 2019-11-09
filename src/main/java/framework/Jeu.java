@@ -10,7 +10,7 @@ import java.util.Iterator;
 public abstract class Jeu {
 
     //TODO nbTours doit pt etre assige en parametre
-    private final int nbTours = 10;
+    protected int nbTours;
     protected int tourActuel = 1;
     private boolean finJeu = false;
     private Joueur joueurActuel;
@@ -19,18 +19,7 @@ public abstract class Jeu {
     protected CollectionJoueurs joueurs;
     protected CollectionDes des;
 
-    /**
-     * reinitialise le jeu
-     */
-    public void reinitialiserPartie(){
-        joueurs.reinitialiserScore();
-        tourActuel = 1;
-        finJeu = false;
-        joueurIterator = joueurs.creerIterator();
-        joueurActuel = null;
-        if(joueurIterator.hasNext())
-            joueurActuel = joueurIterator.next();
-    }
+
 
     /**
      * Lance les des un a un en fonction de l'iterator
@@ -47,77 +36,127 @@ public abstract class Jeu {
         return valeurDes;
     }
 
+    public abstract int calculerScoreTour(int[] des, Joueur joueur);
     public abstract boolean finTourJoueur();
-
-    public int calculerScoreTour(int[] des){
-        int score = strategieScore.calculerScoreTour(des, tourActuel);
-        joueurActuel.ajouterScore(score);
-        return score;
-    }
 
     public Joueur calculerVainqueur(){
         return strategieScore.calculerVainqueur(joueurs);
     }
 
+    /**
+     * Joue un tour de jeu en s'assurant de son bon deroulement
+     */
     public void jouer(){
+        //Jouer si le joueur actuel est determine et si ce nest pas la fin de la partie
         if(!finJeu && joueurActuel != null){
             int[] valeursDes = lancerDes();
-            //Display les des
-            System.out.print("\nLes des sont: ");
 
+            //Display le tour
+            System.out.println("\n---TOUR #" + tourActuel + ": " + joueurActuel.getNom() + " joue---");
+
+            //Display les des
+            System.out.print("Les des sont: ");
             for(int i = 0; i < valeursDes.length; ++i){
-                System.out.print(valeursDes[i] + ", ");
+                System.out.print(valeursDes[i] + "; ");
             }
 
-            int score = calculerScoreTour(valeursDes);
+            int score = calculerScoreTour(valeursDes, joueurActuel);
             System.out.println("\nLe joueur " + joueurActuel.getNom() + " a fait: " + score + " points. Il a maintenant " + joueurActuel.getScore() + " points");
 
-            //Si le joueur a fini sont tour,
+            // Si le joueur a fini sont tour,
             // on verifie sil y a un autre joueur a joueur
             // ou si on incremente le tour ou si la partie est fini
             if(finTourJoueur()){
                 System.out.println("Le tour du joueur " + joueurActuel.getNom() + " est termine");
-
                 //Passe au prochain joueur
                 if(joueurIterator.hasNext()){
-                    joueurActuel = joueurIterator.next();
-                    System.out.println("Le nouveau joueur est: " + joueurActuel.getNom());
+                    prochainJoueur();
                 }
-
                 //Cree un nouvel iterator pour le prochain tour de jeu
                 else if(tourActuel != nbTours){
-                    joueurIterator = joueurs.creerIterator();
-                    joueurActuel = joueurIterator.next();
-                    tourActuel++;
-                    System.out.println("Le tour de jeu est termine. Le prochain tour est le tour " + tourActuel + " sur un total de " + nbTours + " tours");
-                    System.out.println("C'est au tour de " + joueurActuel.getNom() + " de jouer");
-                    System.out.println("--------------------");
+                    prochainTour();
                 }
-
                 //La partie est termine et on calcule le vainqueur
                 else{
-                    Joueur vainqueur = calculerVainqueur();
-                    System.out.println("Le vainqueur de la partie est " + vainqueur.getNom());
-                    finJeu = true;
-                    System.out.println("---FIN DE LA PARTIE---");
+                    finPartie();
                 }
             }
         }
+        //Si cest la fin de la partie
         else{
             System.out.println("La partie est termine");
         }
     }
 
-    //TODO les constructeur de jeu
-    public Jeu(CollectionJoueurs joueurs, CollectionDes des){
-        this.joueurs = joueurs;
-        this.des = des;
+    /**
+     * Changer le joueur actuel pour le prochain joueur dans literateur
+     */
+    private void prochainJoueur(){
+        joueurActuel = joueurIterator.next();
+        System.out.println("Le nouveau joueur est: " + joueurActuel.getNom());
+    }
+
+    /**
+     * Passer au prochain tour en reinitialisant literateur de joueur et le joueur actuel
+     */
+    private void prochainTour(){
+        joueurIterator = joueurs.creerIterator();
+        joueurActuel = joueurIterator.next();
+        tourActuel++;
+        System.out.println("Le tour de jeu est termine. Le prochain tour est le tour " + tourActuel + " sur un total de " + nbTours + " tours");
+        System.out.println("C'est au tour de " + joueurActuel.getNom() + " de jouer");
+        System.out.println("--------------------");
+    }
+
+    /**
+     * Determiner le vainqueur de la partie
+     */
+    private void finPartie(){
+        Joueur vainqueur = calculerVainqueur();
+        System.out.println("Le vainqueur de la partie est " + vainqueur.getNom());
+        finJeu = true;
+        System.out.println("---FIN DE LA PARTIE---");
+    }
+
+
+    public Jeu(CollectionJoueurs joueurs){
+        creerCollectionJoueur(joueurs);
+        creerCollectionDes();
+        setStrategieScore();
         reinitialiserPartie();
     }
 
-    public Jeu(CollectionJoueurs joueurs){
-        this.joueurs = joueurs;
-        reinitialiserPartie();
+    //------ Dans la creation d'un jeu, il faut creer les joueur,
+    // creer les des, choisir les des et initialiser le jeu --------------
 
+    /**
+     * Assiger la collection de joueur
+     * @param joueurs
+     */
+    private void creerCollectionJoueur(CollectionJoueurs joueurs){
+        this.joueurs = joueurs;
+    }
+
+    /**
+     * Creer une collection de des
+     */
+    protected abstract void creerCollectionDes();
+
+    /**
+     * Assigne la strategie de score
+     */
+    protected abstract void setStrategieScore();
+
+    /**
+     * reinitialise le jeu
+     */
+    public void reinitialiserPartie(){
+        joueurs.reinitialiserScore();
+        tourActuel = 1;
+        finJeu = false;
+        joueurIterator = joueurs.creerIterator();
+        joueurActuel = null;
+        if(joueurIterator.hasNext())
+            joueurActuel = joueurIterator.next();
     }
 }

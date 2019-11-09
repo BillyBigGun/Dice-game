@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 public class BuncoPlus extends Jeu {
 
+    private final int nbDes = 3;
+    private final int nbFaces = 6;
     /**
      * Verifie si le joueur peut jouer un autre tour en fonction des des lancees
      * @return
@@ -34,6 +36,13 @@ public class BuncoPlus extends Jeu {
         return true;
     }
 
+    @Override
+    public int calculerScoreTour(int[] des, Joueur joueur) {
+        int score = strategieScore.calculerScoreTour(des, tourActuel);
+        joueur.ajouterScore(score);
+        return score;
+    }
+
     /*public void calculerScoreTour(int[] des) {
 
     }
@@ -42,13 +51,22 @@ public class BuncoPlus extends Jeu {
         return null;
     }*/
 
-    public BuncoPlus(CollectionJoueurs joueurs, CollectionDes des) {
-        super(joueurs, des);
-        strategieScore = new StrategieBuncoPlus();
-    }
-
     public BuncoPlus(CollectionJoueurs joueurs) {
         super(joueurs);
-        strategieScore = new StrategieBuncoPlus();
+        this.nbTours = nbFaces;
+
     }
+
+    @Override
+    protected void creerCollectionDes() {
+        Fabrique fb = new Fabrique();
+        this.des = fb.creerCollectionDes(nbDes, nbFaces);
+    }
+
+    @Override
+    protected void setStrategieScore() {
+        this.strategieScore = new StrategieBuncoPlus();
+    }
+
+
 }

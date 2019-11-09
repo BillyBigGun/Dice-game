@@ -1,3 +1,4 @@
+import JeuConcret.Fabrique;
 import framework.CollectionJoueurs;
 import framework.Joueur;
 import org.junit.Test;
@@ -13,17 +14,18 @@ public class TestCollectionJoueur {
 
     @Test
     public void setup(){
-
-        cj = new CollectionJoueurs(1);
-        cj.ajouterJoueur("a");
+        Fabrique fb = new Fabrique();
+        cj = fb.creerCollectionJoueur();
+        cj.ajouterJoueur(fb.creerJoueur("a"));
     }
 
     @Test
     public void ajouterJoueur(){
         setup();
-        int longueur = cj.ajouterJoueur("b");
+        Fabrique fb = new Fabrique();
+        int longueur = cj.ajouterJoueur(fb.creerJoueur("b"));
         assertEquals(2, longueur);
-        longueur = cj.ajouterJoueur("c");
+        longueur = cj.ajouterJoueur(fb.creerJoueur("c"));
         assertEquals(3, longueur);
     }
 

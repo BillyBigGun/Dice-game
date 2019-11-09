@@ -1,3 +1,4 @@
+import JeuConcret.Fabrique;
 import framework.CollectionDes;
 import framework.De;
 import framework.Joueur;
@@ -16,7 +17,8 @@ public class TestCollectionDe {
 
     @Test
     public void setup(){
-        cd = new CollectionDes(2,6);
+        Fabrique fb = new Fabrique();
+        cd = fb.creerCollectionDes(2,6);
         assertEquals(2, cd.getNbDe());
 
     }

@@ -15,7 +15,8 @@ public class CollectionJoueurs {
      * @param nom
      * @return la longueur de la collection de joueur
      */
-    public int ajouterJoueur(String nom){
+    /*public int ajouterJoueur(String nom){
+        //Lorsque le tableau n'est pas rempli, ajouter le joueur dans ce tableau dans l'indice vide le plus bas
         if(indiceNouveauJoueur < joueurs.length)
             joueurs[indiceNouveauJoueur++] = new Joueur(nom);
 
@@ -26,6 +27,25 @@ public class CollectionJoueurs {
                 js[i] = joueurs[i];
             }
             js[js.length - 1] = new Joueur(nom);
+            joueurs = js;
+            indiceNouveauJoueur++;
+        }
+        return joueurs.length;
+    }*/
+
+    public int ajouterJoueur(Joueur j){
+        //Lorsque le tableau n'est pas rempli, ajouter le joueur dans ce tableau dans l'indice vide le plus bas
+        if(indiceNouveauJoueur < joueurs.length)
+            joueurs[indiceNouveauJoueur++] = j;
+
+            //Cree un tableau plus grand avec un joueur de plus
+        else{
+            Joueur[] js = new Joueur[joueurs.length + 1];
+            for(int i =0; i < js.length - 1; ++i){
+                js[i] = joueurs[i];
+            }
+            //
+            js[js.length - 1] = j;
             joueurs = js;
             indiceNouveauJoueur++;
         }
@@ -52,10 +72,10 @@ public class CollectionJoueurs {
     }
     /**
      * Cree un tableau de joueur vide, il faut les ajouter avec la methode ajouter joueur
-     * @param nbJoueurs
+     *
      */
-    public CollectionJoueurs(int nbJoueurs){
-        joueurs = new Joueur[nbJoueurs];
+    public CollectionJoueurs(){
+        joueurs = new Joueur[1];
         indiceNouveauJoueur = 0;
     }
 

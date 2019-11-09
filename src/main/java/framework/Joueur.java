@@ -23,6 +23,19 @@ public class Joueur implements Comparable<Joueur>{
     }
 
     /**
+     * Soustrait une valeur au score, ne peut pas etre sous 0
+     * @param reduction
+     * @return
+     */
+    public void soustraireScore(int reduction){
+        if(score - Math.abs(reduction) >= 0){
+            score -= Math.abs(reduction);
+        }
+        else
+            score = 0;
+    }
+
+    /**
      * Reinitialise le score a 0
      */
     public void reinitialiser(){
@@ -31,6 +44,8 @@ public class Joueur implements Comparable<Joueur>{
 
     public Joueur(String nom){
         this.nom = nom;
+        if(nom == null || nom == "")
+            this.nom = "NoName";
         this.score = 0;
     }
 

@@ -19,26 +19,28 @@ public class StrategieBuncoPlus implements StrategieScore{
 
     public int calculerScoreTour(int[] des, int tour) {
         int score = 0;
-        boolean tousPareil = true;
-        //Ajoute 1 point a chaque des == au tour
-        for(int i =0; i < des.length; ++i){
-            if(des[i] == tour)
-                score++;
-            //verifie sil sont tous pareil
-            if(i != 0){
-                //Verifie avec le de precedent
-                if(des[i] != des[i-1])
-                    tousPareil = false;
+        if(des != null) {
+            boolean tousPareil = true;
+
+            //Ajoute 1 point a chaque des == au tour
+            for(int i =0; i < des.length; ++i){
+                if(des[i] == tour)
+                    score++;
+                //verifie sil sont tous pareil
+                if(i != 0){
+                    //Verifie avec le de precedent
+                    if(des[i] != des[i-1])
+                        tousPareil = false;
+                }
             }
-
+            //si tous les des tombe sur le meme chiffre que le tour
+            if(score == des.length )
+                score = valeurBunco;
+                //S'ils sont tous pareil mais != tour
+            else if(tousPareil)
+                score = valeurTousPareil;
         }
-        //si tous les des tombe sur le meme chiffre que le tour
-        if(score == des.length )
-            score = valeurBunco;
-        //S'ils sont tous pareil mais != tour
-        else if(tousPareil)
-            score = valeurTousPareil;
-
         return score;
     }
+
 }

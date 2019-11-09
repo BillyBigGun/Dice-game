@@ -1,3 +1,4 @@
+import JeuConcret.Fabrique;
 import framework.Joueur;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -8,10 +9,12 @@ public class TestJoueur {
     Joueur j2;
     @Test
     public void setup(){
-        j1 = new Joueur("a");
+        Fabrique fb = new Fabrique();
+        j1 = fb.creerJoueur("a");
         assertEquals("a", j1.getNom());
         assertEquals(0, j1.getScore());
-        j2 = new Joueur("b");
+        j2 = fb.creerJoueur("");
+        assertEquals("NoName", j2.getNom());
     }
 
     @Test

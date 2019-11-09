@@ -1,3 +1,4 @@
+import JeuConcret.Fabrique;
 import Strategies.StrategieBuncoPlus;
 import Strategies.StrategieScore;
 import framework.CollectionJoueurs;
@@ -13,10 +14,11 @@ public class TestStrategie {
 
     @Test
     public void setup(){
+        Fabrique fb = new Fabrique();
         strat = new StrategieBuncoPlus();
-        cj = new CollectionJoueurs(2);
-        cj.ajouterJoueur("a");
-        cj.ajouterJoueur("b");
+        cj = fb.creerCollectionJoueur();
+        cj.ajouterJoueur(fb.creerJoueur("a"));
+        cj.ajouterJoueur(fb.creerJoueur("b"));
     }
 
     @Test

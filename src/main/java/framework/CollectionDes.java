@@ -1,5 +1,7 @@
 package framework;
 
+import JeuConcret.Fabrique;
+
 import java.util.Iterator;
 
 public class CollectionDes {
@@ -40,12 +42,10 @@ public class CollectionDes {
         return valeurDes;
     }
 
-    public CollectionDes(int nbDe, int nbFaces){
-        this.nbDes = nbDe;
-        this.des = new De[nbDe];
-        for(int i = 0; i < des.length; ++i){
-            this.des[i] = new De(nbFaces);
-        }
+    public CollectionDes(De[] lesDes){
+        Fabrique fb = new Fabrique();
+        this.nbDes = lesDes.length;
+        this.des = lesDes;
     }
 
     private class DeIterator<De> implements Iterator<De>{
