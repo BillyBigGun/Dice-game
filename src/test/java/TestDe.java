@@ -11,16 +11,27 @@ public class TestDe {
     final int d1Faces = 6;
     final int d2Faces = -1;
 
+    /**
+     * Initialise le test pour etre en mesure d'interagir avec un de
+     */
     @Test
     public void setup(){
         Fabrique fb = new Fabrique();
         d1 = fb.creerDe(d1Faces);
+
+        //Test face negative
         d2 = fb.creerDe(d2Faces);
         assertEquals(d1Faces, d1.getNbFaces());
         assertEquals(1, d2.getNbFaces());
 
+        //test avec 0 face
+        De d3 = fb.creerDe(0);
+        assertEquals(1, d3.getNbFaces());
     }
 
+    /**
+     * test la duplication dun de en comparant sont nombre de faces
+     */
     @Test
     public void dupliquer(){
         setup();
@@ -28,6 +39,9 @@ public class TestDe {
         assertEquals(d2.getNbFaces(), d1.getNbFaces());
     }
 
+    /**
+     * Test le lancer d'un de respecte les valeurs qu'il peut supporter
+     */
     @Test
     public void lancer(){
         setup();
@@ -38,7 +52,9 @@ public class TestDe {
         }
     }
 
-    //TODO ces test ne sont pas tres precis
+    /**
+     * Sassure que le compare to fonctionne bien en essayant avec des valeurs plus petite plus grande et egales
+     */
     @Test
     public void compareTo(){
         setup();

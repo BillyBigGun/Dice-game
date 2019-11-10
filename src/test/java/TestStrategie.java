@@ -12,6 +12,9 @@ public class TestStrategie {
     StrategieScore strat;
     CollectionJoueurs cj;
 
+    /**
+     * Initialise le test pour etre en mesure de pouvoir interagir avec la strategie
+     */
     @Test
     public void setup(){
         Fabrique fb = new Fabrique();
@@ -21,6 +24,9 @@ public class TestStrategie {
         cj.ajouterJoueur(fb.creerJoueur("b"));
     }
 
+    /**
+     * Test les differente combinaison du calcul du score
+     */
     @Test
     public void calculerScore(){
         setup();
@@ -46,6 +52,9 @@ public class TestStrategie {
         assertEquals(0 , score);
     }
 
+    /**
+     * Test le calcul du vainqueur en modifiant
+     */
     @Test
     public void calculerVainqueur(){
         setup();

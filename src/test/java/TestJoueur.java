@@ -7,6 +7,10 @@ public class TestJoueur {
 
     Joueur j1;
     Joueur j2;
+
+    /**
+     * Initialise le test pour s'assurer de pouvoir interagir avec un joueur
+     */
     @Test
     public void setup(){
         Fabrique fb = new Fabrique();
@@ -17,6 +21,9 @@ public class TestJoueur {
         assertEquals("NoName", j2.getNom());
     }
 
+    /**
+     * S'assure que lajout au score focntionne et que les valeurs negative ne reduise pas le score
+     */
     @Test
     public void ajouterScore(){
         setup();
@@ -28,9 +35,11 @@ public class TestJoueur {
 
         j1.ajouterScore(-4);
         assertEquals(18, j1.getScore());
-
     }
 
+    /**
+     * COmpare les score entre deux joueurs pour sassurer que le plus grand, plus petit et egal fonctionne
+     */
     @Test
     public void compareTo(){
         setup();

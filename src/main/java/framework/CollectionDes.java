@@ -42,6 +42,10 @@ public class CollectionDes {
         return valeurDes;
     }
 
+    /**
+     * Cree une collection de des a partir d'un tableau de des
+     * @param lesDes
+     */
     public CollectionDes(De[] lesDes){
         Fabrique fb = new Fabrique();
         this.nbDes = lesDes.length;

@@ -6,10 +6,18 @@ public class Joueur implements Comparable<Joueur>{
     private String nom;
     private int score;
 
+    /**
+     * retourne le score de ce joueurs
+     * @return
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * retourne le nom du joueur
+     * @return
+     */
     public String getNom(){
         return nom;
     }
@@ -49,6 +57,11 @@ public class Joueur implements Comparable<Joueur>{
         this.score = 0;
     }
 
+    /**
+     * Compare deux joueur et determine celui qui a le plus haut score
+     * @param joueur
+     * @return 0 --> egaux | 1 --> this > parametre | -1 --> this < parametre
+     */
     public int compareTo(Joueur joueur){
         int scoreJoueur = joueur.getScore();
         if(scoreJoueur < this.score)

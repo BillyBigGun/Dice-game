@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 public abstract class Jeu {
 
-    //TODO nbTours doit pt etre assige en parametre
     protected int nbTours;
     protected int tourActuel = 1;
     private boolean finJeu = false;
@@ -19,6 +18,21 @@ public abstract class Jeu {
     protected CollectionJoueurs joueurs;
     protected CollectionDes des;
 
+    /**
+     * Retourne la collection de des
+     * @return
+     */
+    public CollectionDes getCollectionDe(){
+        return des;
+    }
+
+    /**
+     * retourne le boolean determinant la fin de la partie
+     * @return
+     */
+    public boolean getFinJeu(){
+        return finJeu;
+    }
 
     /**
      * Lance les des un a un en fonction de l'iterator
@@ -35,8 +49,20 @@ public abstract class Jeu {
         return valeurDes;
     }
 
+    /**
+     * Calcule les points d'un tour d'un joueur
+     * @param des
+     * @param joueur
+     * @return
+     */
     public abstract int calculerScoreTour(int[] des, Joueur joueur);
-    public abstract boolean finTourJoueur();
+
+    /**
+     * Determine si le joueur continu a joueur ou non
+     * @param des
+     * @return
+     */
+    public abstract boolean finTourJoueur(CollectionDes des);
 
     public CollectionJoueurs calculerVainqueur(){
         return strategieScore.calculerVainqueur(joueurs);
@@ -65,7 +91,7 @@ public abstract class Jeu {
             // Si le joueur a fini sont tour,
             // on verifie sil y a un autre joueur a joueur
             // ou si on incremente le tour ou si la partie est fini
-            if(finTourJoueur()){
+            if(finTourJoueur(des)){
                 System.out.println("Le tour du joueur " + joueurActuel.getNom() + " est termine");
                 //Passe au prochain joueur
                 if(joueurIterator.hasNext()){
@@ -104,6 +130,8 @@ public abstract class Jeu {
         tourActuel++;
         System.out.println("Le tour de jeu est termine. Le prochain tour est le tour " + tourActuel + " sur un total de " + nbTours + " tours");
         System.out.println("C'est au tour de " + joueurActuel.getNom() + " de jouer");
+        System.out.println("\n--------------------");
+        System.out.println("PROCHAIN TOUR DE JEU");
         System.out.println("--------------------");
     }
 
@@ -120,21 +148,33 @@ public abstract class Jeu {
         int indice = 1;
         //Classement
         while(it.hasNext()){
-            System.out.println(indice++ + ". " + it.next().getNom());
+            Joueur j = it.next();
+            System.out.println(indice++ + ". " + j.getNom() + " | " + j.getScore() + " points");
         }
         System.out.println("");
     }
 
 
+    /**
+     * Cree un jeu en assignant la collection de joueur, la collection de des,
+     * la strategie et en initialisant les valeurs d'un jeu
+     * @param joueurs
+     */
     public Jeu(CollectionJoueurs joueurs){
         creerCollectionJoueur(joueurs);
         creerCollectionDes();
+        assignerNombreTour();
         setStrategieScore();
         reinitialiserPartie();
     }
 
     //------ Dans la creation d'un jeu, il faut creer les joueur,
     // creer les des, choisir les des et initialiser le jeu --------------
+
+    /**
+     * Determine le nombre de tour d'une partie
+     */
+    protected abstract void assignerNombreTour();
 
     /**
      * Assiger la collection de joueur

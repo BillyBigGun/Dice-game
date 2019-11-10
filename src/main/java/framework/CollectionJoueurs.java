@@ -12,13 +12,14 @@ public class CollectionJoueurs {
 
     /**
      * Ajoute un nouveau joueur au tableau
-     * @param nom
+     * Si le tableau est plein, on l'agrandi
+     * @param j
      * @return la longueur de la collection de joueur
      */
-    /*public int ajouterJoueur(String nom){
+    public int ajouterJoueur(Joueur j){
         //Lorsque le tableau n'est pas rempli, ajouter le joueur dans ce tableau dans l'indice vide le plus bas
         if(indiceNouveauJoueur < joueurs.length)
-            joueurs[indiceNouveauJoueur++] = new Joueur(nom);
+            joueurs[indiceNouveauJoueur++] = j;
 
         //Cree un tableau plus grand avec un joueur de plus
         else{
@@ -26,25 +27,7 @@ public class CollectionJoueurs {
             for(int i =0; i < js.length - 1; ++i){
                 js[i] = joueurs[i];
             }
-            js[js.length - 1] = new Joueur(nom);
-            joueurs = js;
-            indiceNouveauJoueur++;
-        }
-        return joueurs.length;
-    }*/
-
-    public int ajouterJoueur(Joueur j){
-        //Lorsque le tableau n'est pas rempli, ajouter le joueur dans ce tableau dans l'indice vide le plus bas
-        if(indiceNouveauJoueur < joueurs.length)
-            joueurs[indiceNouveauJoueur++] = j;
-
-            //Cree un tableau plus grand avec un joueur de plus
-        else{
-            Joueur[] js = new Joueur[joueurs.length + 1];
-            for(int i =0; i < js.length - 1; ++i){
-                js[i] = joueurs[i];
-            }
-            //
+            //Ajoute le nouveau joueur au tableau
             js[js.length - 1] = j;
             joueurs = js;
             indiceNouveauJoueur++;
@@ -52,6 +35,10 @@ public class CollectionJoueurs {
         return joueurs.length;
     }
 
+    /**
+     * retourne le tableau de joueurs
+     * @return
+     */
     public Joueur[] getJoueurs(){
         return joueurs;
     }
@@ -64,6 +51,9 @@ public class CollectionJoueurs {
         return new JoueurIterator<Joueur>();
     }
 
+    /**
+     * Reinitialise le score de tous les joueurs de la collection
+     */
     public void reinitialiserScore(){
         Iterator<Joueur> iterator = creerIterator();
         while(iterator.hasNext()){

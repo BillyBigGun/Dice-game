@@ -15,6 +15,9 @@ public class TestCollectionDe {
 
     CollectionDes cd;
 
+    /**
+     * Initialise le test pour etre en mesure dinterragir avec la collection
+     */
     @Test
     public void setup(){
         Fabrique fb = new Fabrique();
@@ -23,6 +26,9 @@ public class TestCollectionDe {
 
     }
 
+    /**
+     * Test l'iterateur de la collection
+     */
     @Test
     public void creerIterator(){
         setup();
@@ -36,6 +42,9 @@ public class TestCollectionDe {
         assertEquals(2, nbIteration);
     }
 
+    /**
+     * S'assure que les valeurs d'un lancer reste entre les valeurs des faces des des
+     */
     @Test
     public void lancer(){
         setup();

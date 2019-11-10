@@ -12,6 +12,9 @@ public class TestCollectionJoueur {
 
     CollectionJoueurs cj;
 
+    /**
+     * initialise le test pour etre en mesure d'interagir avec la collection
+     */
     @Test
     public void setup(){
         Fabrique fb = new Fabrique();
@@ -19,6 +22,9 @@ public class TestCollectionJoueur {
         cj.ajouterJoueur(fb.creerJoueur("a"));
     }
 
+    /**
+     * Test lajout d'un joueur dans la collection
+     */
     @Test
     public void ajouterJoueur(){
         setup();
@@ -29,6 +35,9 @@ public class TestCollectionJoueur {
         assertEquals(3, longueur);
     }
 
+    /**
+     * Test literateur des joueurs
+     */
     @Test
     public void iterator(){
         ajouterJoueur();
@@ -45,6 +54,11 @@ public class TestCollectionJoueur {
             if(indice == 2){
                 assertEquals("c", nom);
             }
+            //Ne devrai pas se rendre ici et devrais display une erreur
+            if(indice == 3){
+                assertEquals(0,1);
+            }
+
             indice++;
         }
     }
