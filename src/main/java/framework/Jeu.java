@@ -144,6 +144,7 @@ public abstract class Jeu {
 
         finJeu = true;
         System.out.println("\n---FIN DE LA PARTIE---");
+        System.out.println("\nLe vainqueur est: " + classement.getJoueurs()[0].getNom());
         System.out.println("\n--Classement---");
         int indice = 1;
         //Classement
